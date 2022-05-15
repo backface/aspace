@@ -78,7 +78,7 @@
           <g v-for="(stream, i) in streams">
             <defs>
               <radialGradient :id="'grad'+i" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                <stop offset="0%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0.6'" />
+                <stop offset="0%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0.7'" />
                 <!--<stop offset="0%" :style="'stop-color: rgb(150, 150, 150); stop-opacity: 0.6'" />-->
                 <stop offset="100%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0.1'" />
               </radialGradient>
@@ -132,7 +132,7 @@
         position: 'absolute',
         color: 'black',
         left: (x_offset + width/2 + msg.x * this.radius) + 'px',
-        bottom: (-y_offset + height/2 - msg.y * this.radius + 12) + 'px',
+        bottom: (-y_offset + height/2 - msg.y * this.radius + (msg.user_id === user.id ? 18 : 12)) + 'px',
         padding: '3px',
         background: 'rgba(255, 255, 255, 0.7)',
         borderRadius: '2px',
@@ -893,19 +893,19 @@ svg .source {
 }
 
 svg .tunein {
-  stroke: rgba(255, 255, 255, 0.6);
+  stroke: rgba(255, 255, 255, 0.8);
   stroke-width: 0.5;
   stroke-dasharray: 7,7;
   fill: none;
 }
 
 svg .spread {
-  stroke: rgba(150, 150, 150, 0.5);
+  stroke: rgba(150, 150, 150, 0.6);
   stroke-width: 1;
 }
 
 svg .vm {
-  stroke: rgba(150, 150, 150, 0.6);
+  stroke: rgba(150, 150, 150, 0.7);
   stroke-width: 1.8;
   fill:none;
 }
