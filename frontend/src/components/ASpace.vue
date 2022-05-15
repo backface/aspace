@@ -78,7 +78,7 @@
           <g v-for="(stream, i) in streams">
             <defs>
               <radialGradient :id="'grad'+i" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                <stop offset="0%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0.7'" />
+                <stop offset="0%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0.6'" />
                 <!--<stop offset="0%" :style="'stop-color: rgb(150, 150, 150); stop-opacity: 0.6'" />-->
                 <stop offset="100%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0.1'" />
               </radialGradient>
@@ -234,7 +234,9 @@
       &nbsp;
     </div>
     <div class="info">
-      loading config..
+      <div class='w-full'>
+        loading config..
+      </div>
     </div>
   </template>
 
