@@ -4,10 +4,10 @@ specifiers:
   '@vitejs/plugin-vue': ^2.3.1
   autolinker: ^3.15.0
   autoprefixer: ^10.4.7
+  chroma-js: ^2.4.2
   custom-vue-scrollbar: ^0.0.7
   d3: ^7.4.4
   d3-force: ^3.0.0
-  fit-svg-text: ^0.1.2
   locutus: ^2.0.16
   postcss: ^8.4.13
   randomcolor: ^0.6.2
@@ -22,10 +22,10 @@ specifiers:
 
 dependencies:
   autolinker: 3.15.0
+  chroma-js: 2.4.2
   custom-vue-scrollbar: 0.0.7
   d3: 7.4.4
   d3-force: 3.0.0
-  fit-svg-text: 0.1.2
   locutus: 2.0.16
   randomcolor: 0.6.2
   resonance-audio: 1.0.0
@@ -288,6 +288,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /chroma-js/2.4.2:
+    resolution: {integrity: sha512-U9eDw6+wt7V8z5NncY2jJfZa+hUH8XEj8FQHgFJTrUFnJfXYf4Ml4adI2vXZOjqRDpFWtYVWypDfZwnJ+HIR4A==}
+    dev: false
 
   /color-name/1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
@@ -866,12 +870,6 @@ packages:
     dependencies:
       to-regex-range: 5.0.1
     dev: true
-
-  /fit-svg-text/0.1.2:
-    resolution: {integrity: sha512-s19PAHudxg4KXv9bQ16174T9/DzwrFBt2wjDpmlPPTGBFgOYFBJmotvvmbBiA8p/qUyVMDLVdL21ZaXDqbGufA==}
-    peerDependencies:
-      react: 16.x
-    dev: false
 
   /fraction.js/4.2.0:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}

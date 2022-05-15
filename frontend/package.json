@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "autolinker": "^3.15.0",
+    "chroma-js": "^2.4.2",
     "custom-vue-scrollbar": "^0.0.7",
     "d3": "^7.4.4",
     "d3-force": "^3.0.0",
-    "fit-svg-text": "^0.1.2",
     "locutus": "^2.0.16",
     "randomcolor": "^0.6.2",
     "resonance-audio": "^1.0.0",

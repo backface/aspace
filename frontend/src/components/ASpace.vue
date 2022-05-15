@@ -249,9 +249,9 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </div>
-      <div class="pb-20 max-w-prose">
-        <h1 class="text-2xl m-5">a.space by servus.at</h1>
-        <p class="m-5">a.space is a distributed sound installation that
+      <div class="pb-20 text-xs md:text-xl max-w-prose">
+        <h1 class="text-xl md:text-3xl my-4 md:my-10">a.space by servus.at</h1>
+        <p class="mb-4">a.space is a distributed sound installation that
           interconnects events, through a directional loop affected by space,
           feedback and the audience. The set is activated on-site by
            Stefan Tiefengraber in Linz, Polina Khatsenka in Ústí nad Labem,
@@ -260,12 +260,12 @@
            interact with others. The project explores the heterogeneity of time
            and space, in search of points of communication and synchronicity.
         </p>
-        <p class="m-5">It is conceptualized by Davide Bevilaqua and Gabriela Gordillo.
+        <p class="mb-4">It is conceptualized by Davide Bevilaqua and Gabriela Gordillo.
            Realized by <a href="https://servus.at">servus.at</a> with the support of Linz_Sounds 2021,
            in collaboration with bb15, Emanat Institute, Ústí nad Labem House of Arts.
             Web Interface developed by <a href="https://m.ash.to">Michael Aschauer</a>.
         </p>
-        <p class="m-5">June 16th - from (15:00 to 19:00) in the frame of
+        <p class="mb-4">June 16th - from (15:00 to 19:00) in the frame of
           AMRO22, accessible online at <a href="https://a-space.servus.at">a-space.servus.at</a>
         </p>
       </div>
@@ -291,7 +291,7 @@ import { forceSimulation }  from 'd3-force';
 import { forceManyBody }  from 'd3-force';
 import { forceCollide }  from 'd3-force';
 import { forceRadial }  from 'd3-force';
-
+import chroma from "chroma-js"
 //import randomColor from 'randomcolor'
 //import Autolinker from 'autolinker';
 //import CustomScrollbar from 'custom-vue-scrollbar';
@@ -378,7 +378,7 @@ export default {
 
       this.socket.on('message', (msg_data) => {
         msg_data.msg_html = Autolinker.link(msg_data.msg)
-        this.msgcolor(msg_data)
+        msg_data.srccolor = this.msgcolor(msg_data)
         self.messages.push(msg_data)
         self.message_bubbles.push(msg_data)
         if (self.sameRoom(msg_data, self.user)) {
@@ -404,8 +404,7 @@ export default {
         self.messages = data.messages
         self.messages.forEach((item, i) => {
           item.msg_html = Autolinker.link(item.msg)
-          this.msgcolor(item)
-          console.log(item.srccolor);
+          item.srccolor = this.msgcolor(item)
         });
         self.messages_to_show = self.messages.filter(msg => self.sameRoom(msg, self.user))
 
@@ -712,19 +711,21 @@ export default {
     },
 
     msgcolor (item) {
-      let colors = []
       if (
         this.streams[0].color === 'red' &&
         this.streams[1].color === 'green' &&
-        this.streams[2].color === 'blue'
+        this.streams[2].color === 'blue' &&
+        false
       ) {
-        this.streams.forEach((stream, i) => {
-          colors.push(255 - 255 * Math.max(0, this.distance(stream, item)))
-        });
+        let colors = this.streams.map(s => 255 - 255 * (Math.max(0, Math.min(1, this.distance(s, item)))))
+        return 'rgba(' + colors.join(',') + ', 1)'
       } else {
-        colors = [180, 180, 180]
+        let colors = this.streams.map(s => s.color)
+        let dists = this.streams.map(s => (1 - Math.max(0, Math.min(this.source_dist_fact, this.distance(s, item)) * 1.81)))
+        //colors.push('white')
+        //dists.push(0.1)
+        return chroma.average(colors,'rgb', dists).brighten()
       }
-      item.srccolor = 'rgba(' + colors.join(',') + ', 0.8)'
     },
 
     deleteFromAudience (item) {
