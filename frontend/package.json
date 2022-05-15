@@ -1,0 +1,33 @@
+{
+  "name": "a.space",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "vite build; rsync -avzL dist/* man:www/aspace.backface.io"
+  },
+  "dependencies": {
+    "autolinker": "^3.15.0",
+    "custom-vue-scrollbar": "^0.0.7",
+    "d3": "^7.4.4",
+    "d3-force": "^3.0.0",
+    "fit-svg-text": "^0.1.2",
+    "locutus": "^2.0.16",
+    "randomcolor": "^0.6.2",
+    "resonance-audio": "^1.0.0",
+    "socket.io-client": "^4.5.0",
+    "tone": "^14.7.77",
+    "vue": "^3.2.25",
+    "vue-feather-icons": "^5.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.1",
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.13",
+    "tailwindcss": "^3.0.24",
+    "vite": "^2.9.5",
+    "web-audio-peak-meter": "^2.1.0"
+  }
+}

@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  backend:
+    image: backface/aspace
+    build:
+      context:  ./
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    command:
+      npm run start
+
+  caddy:
+    image: caddy:latest
+    network_mode: host
+    #ports:
+    #  - 80:80
+    #  - 443:443
+    volumes:
+      - ./backend/Caddyfile:/etc/caddy/Caddyfile:ro
+
+
+  #proxy:
+  #  image: quay.io/pathwae/proxy
+  #  network_mode: host
+  #  ports:
+    #  - 80:80
+    #  - 443:443
+    #  - 8080:8080
+  #  environment:
+  #    CONFIG: |
+  #      aspace.backface.io:
+  #        to: http://backend:3000
+  #        force_ssl: true

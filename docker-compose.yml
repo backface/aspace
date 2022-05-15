@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  backend:
+    image: backface/aspace
+    build:
+      context:  ./
+      dockerfile: Dockerfile
+    command:
+      npm run start
+
+  caddy:
+    image: caddy:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./backend/Caddyfile:/etc/caddy/Caddyfile:ro
