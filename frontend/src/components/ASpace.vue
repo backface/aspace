@@ -1,6 +1,9 @@
 <template>
 
-  <div v-if="running" class="chat absolute bottom-0 left-0 w-1/3 h-full text-left">
+  <div
+    v-if="running"
+    class="chat absolute bottom-0 left-0 w-1/3 h-full text-left"
+  >
     <div class="messageboard absolute bottom-12 left-0 pl-6 mb-3 w-full" ref="messageboard">
       <transition-group name="list">
         <div v-for="msg in messages_to_show" :key="msg.id" class="message pt-1" :class="{ is_status: msg.is_status }">
@@ -26,7 +29,10 @@
       <div class="messageboard_anchor"></div>
     </div>
   </div>
-  <div v-if="running" class="messagecompose absolute bottom-2 left-0 w-full md:w-1/3 pl-3 text-left">
+  <div
+    v-if="running"
+    class="messagecompose absolute bottom-2 left-0 w-full md:w-1/3 pl-3 text-left"
+  >
     <input
       type="text"
       v-model='msg'
@@ -67,15 +73,6 @@
       @mouseleave="dragUserStop"
       @mouseup="dragUserStop"
     >
-    <defs>
-      <radialGradient id="'grad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-        <stop offset="0%" style="stop-color:rgb(100, 100, 100); stop-opacity: 0.7" />
-        <stop offset="100%" style="'stop-color:green; stop-opacity: 0" />
-      </radialGradient>
-      <filter id="blur">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
-      </filter>
-    </defs>
       <g>
         <g class="streams">0
           <g v-for="(stream, i) in streams">
@@ -85,9 +82,6 @@
                 <!--<stop offset="0%" :style="'stop-color: rgb(150, 150, 150); stop-opacity: 0.6'" />-->
                 <stop offset="100%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0.1'" />
               </radialGradient>
-              <filter id="blur">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
-              </filter>
             </defs>
             <circle
               class="spread"
@@ -117,16 +111,6 @@
               :cy='y_offset + height/2 + radius * stream.y'
               :r="stream.rms * source_radius"
             />
-            <!--
-            <text
-              v-if="tunedin == i"
-              :x='width/2 + radius * stream.x - 25'
-              :y='height/2 + radius * stream.y - 15'
-              style="stroke-width:0.7em; stroke: #aaa;"
-            >
-              {{  msgbg(stream.title) }}
-            </text>
-            -->
             <text
               :x='x_offset + width/2 + radius * stream.x - 25'
               :y='y_offset + height/2 + radius * stream.y - 15'
@@ -136,6 +120,44 @@
             </text>
           </g>
         </g>
+      </g>
+    </svg>
+  </div>
+
+  <transition-group name="slow-fade">
+    <div
+      v-for="msg in message_bubbles"
+      :key="msg.id"
+      :style="{
+        position: 'absolute',
+        color: 'black',
+        left: (x_offset + width/2 + msg.x * this.radius) + 'px',
+        bottom: (-y_offset + height/2 - msg.y * this.radius + 12) + 'px',
+        padding: '3px',
+        background: 'rgba(255, 255, 255, 0.7)',
+        borderRadius: '2px',
+        maxWidth: '200px',
+        transform: 'translate(-50%, 0)'
+      }"
+      v-html="msg.msg_html"
+    >
+    </div>
+  </transition-group>
+
+  <div class="absolute top-0 left-0 h-full w-full text-center">
+    <svg
+      ref="diagram"
+      class="mx-auto h-full w-full"
+      @mousemove="dragUser"
+      @mouseleave="dragUserStop"
+      @mouseup="dragUserStop"
+    >
+      <defs>
+        <filter id="blur">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+        </filter>
+      </defs>
+      <g>
 
         <g v-for="user in audience" class="audience">
           <circle
@@ -161,83 +183,9 @@
           @mouseup="dragUserStop"
           @mousemove="dragUser"
         />
-        <!--
-
-        <g class="bubbles">
-          <transition-group name="slow-fade">
-            <g v-for="msg in message_bubbles" :key="msg.id">
-              <defs>
-                <filter x="0" y="0" width="1" height="1" id="solid">
-                  <feFlood flood-color="#333333" result="bg" />
-                  <feMerge>
-                    <feMergeNode in="bg"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-              </defs>
-              <text
-                v-if="user.id != msg.user_id"
-                :x="x_offset + width/2 + msg.x * this.radius"
-                :y="y_offset + height/2 + msg.y * this.radius - 18"
-                class="message-bg"
-                style="stroke:#eeeeee; stroke-width:0.7em; fill: #eeeeee"
-              >
-                {{ msgbg(msg.msg) }}
-              </text>
-              <text
-                v-else
-                :x="x_offset + width/2 + msg.x * this.radius"
-                :y="y_offset + height/2 + msg.y * this.radius - 23"
-                class="message"
-                style="stroke:#eeeeee; stroke-width:0.7em; fill: #eeeeee"
-              >
-                {{ msgbg(msg.msg) }}
-              </text>
-              <text
-                v-if="user.id != msg.user_id"
-                :x="x_offset + width/2 + msg.x * this.radius"
-                :y="y_offset + height/2 + msg.y * this.radius - 18"
-                style="fill:#000000"
-              >
-                {{ msg.msg }}
-              </text>
-              <text
-                v-else
-                :x="x_offset + width/2 + msg.x * this.radius"
-                :y="y_offset + height/2 + msg.y * this.radius - 23"
-                class="message"
-                style="fill:#000000"
-              >
-                {{ msg.msg }}
-              </text>
-            </g>
-          </transition-group>
-
-        </g>
-          -->
       </g>
     </svg>
   </div>
-
-    <transition-group name="slow-fade">
-      <div
-        v-for="msg in message_bubbles"
-        :key="msg.id"
-        :style="{
-          position: 'absolute',
-          color: 'black',
-          left: (x_offset + width/2 + msg.x * this.radius) + 'px',
-          bottom: (-y_offset + height/2 - msg.y * this.radius + 12) + 'px',
-          padding: '3px',
-          background: 'rgba(255, 255, 255, 0.8)',
-          borderRadius: '2px',
-          maxWidth: '200px',
-          transform: 'translate(-50%, 0)'
-        }"
-        v-html="msg.msg_html"
-      >
-      </div>
-    </transition-group>
 
   <transition name="fade">
     <div v-if="!running">
@@ -276,7 +224,6 @@
           </button>
           <br><br>
           (headphones recommended)
-
         </div>
       </div>
     </div>
@@ -457,11 +404,7 @@ export default {
         self.messages = data.messages
         self.messages.forEach((item, i) => {
           item.msg_html = Autolinker.link(item.msg)
-          let colors = []
-          this.streams.forEach((stream, i) => {
-            colors.push(255 - 255 * Math.max(0, this.distance(stream, item)))
-          });
-          item.srccolor = 'rgb(' + colors.join(',') + ')'
+          this.msgcolor(item)
           console.log(item.srccolor);
         });
         self.messages_to_show = self.messages.filter(msg => self.sameRoom(msg, self.user))
@@ -770,10 +713,18 @@ export default {
 
     msgcolor (item) {
       let colors = []
-      this.streams.forEach((stream, i) => {
-        colors.push(255 - 255 * Math.max(0, this.distance(stream, item)))
-      });
-      item.srccolor = 'rgb(' + colors.join(',') + ')'
+      if (
+        this.streams[0].color === 'red' &&
+        this.streams[1].color === 'green' &&
+        this.streams[2].color === 'blue'
+      ) {
+        this.streams.forEach((stream, i) => {
+          colors.push(255 - 255 * Math.max(0, this.distance(stream, item)))
+        });
+      } else {
+        colors = [180, 180, 180]
+      }
+      item.srccolor = 'rgba(' + colors.join(',') + ', 0.8)'
     },
 
     deleteFromAudience (item) {
@@ -941,7 +892,7 @@ svg .source {
 }
 
 svg .tunein {
-  stroke: rgba(255, 255, 255, 0.5);
+  stroke: rgba(255, 255, 255, 0.6);
   stroke-width: 0.5;
   stroke-dasharray: 7,7;
   fill: none;
