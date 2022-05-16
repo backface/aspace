@@ -9,16 +9,27 @@ import './index.css'
 </template>
 
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Recursive&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap');
+
+:root {
+  --background: #222222;
+  --primary: #ff6969;
+  --primary: rgba(255,255,255,0.6);
+}
+
 body, html, #app {
-  background: black;
-  color: #dddddd;
+  background: var(--background);
+  color: var(--primary);
   height: 100%;
   width: 100%;
   margin:0;
   padding:0;
 }
 #app {
-	font-family: monospace;
+	font-family: 'Noto Sans Mono', 'Recursive', monospace;
+  font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

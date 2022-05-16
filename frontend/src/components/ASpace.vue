@@ -1,10 +1,14 @@
 <template>
-
+<div
+  class="absolute bottom-0 left-0 w-full h-full"
+  :style="{ background: darken(msgcolor(user)) }"
+  @keyup="onKey"
+>
   <div
     v-if="running"
     class="chat absolute bottom-0 left-0 w-1/3 h-full text-left"
   >
-    <div class="messageboard absolute bottom-12 left-0 pl-6 mb-3 w-full" ref="messageboard">
+    <div class="messageboard absolute bottom-12 left-0 pl-6 mb-3 w-full text-md" ref="messageboard">
       <transition-group name="list">
         <div v-for="msg in messages_to_show" :key="msg.id" class="message pt-1" :class="{ is_status: msg.is_status }">
           <div v-if="msg.is_status" class="">
@@ -37,7 +41,7 @@
       type="text"
       v-model='msg'
       placeholder="type message here  "
-      class="w-4/6 m-2 p-2 pl-1 border-gray-500 border-b-2 bg-transparent text-left text-white focus:outline-none"
+      class="w-4/6 m-2 p-2 pl-1 bg-transparent text-left focus:outline-none"
       @keyup.enter="sendMessage"
     />
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -52,17 +56,8 @@
     &nbsp;
   </div>
 
-  <div class="footer p-1">
-<pre>
-┏━━━┓━┓┏━┓━━━┓━━━┓
-┃┏━┓┃┃┗┛┃┃┏━┓┃┏━┓┃
-┃┃┃┃┃┏┓┏┓┃┗━┛┃┃┃┃┃
-┃┗━┛┃┃┃┃┃┃┏┓┏┛┃┃┃┃
-┃┏━┓┃┃┃┃┃┃┃┃┗┓┗━┛┃
-┗┛┃┗┛┛┗┛┗┛┛┗━┛━━━┛
-┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃
-┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃
-</pre>
+  <div class="footer absolute right-6 bottom-3 p-1 text-sm">
+    <p>hosted by servus.at</p>
   </div>
 
   <div class="absolute top-0 left-0 h-full w-full text-center">
@@ -78,9 +73,9 @@
           <g v-for="(stream, i) in streams">
             <defs>
               <radialGradient :id="'grad'+i" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                <stop offset="0%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0.6'" />
+                <stop offset="0%" :style="'stop-color: ' + stream.color +'; stop-opacity: 1'" />
                 <!--<stop offset="0%" :style="'stop-color: rgb(150, 150, 150); stop-opacity: 0.6'" />-->
-                <stop offset="100%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0.1'" />
+                <stop offset="100%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0'" />
               </radialGradient>
             </defs>
             <circle
@@ -89,16 +84,17 @@
               :cy='y_offset + height/2 + radius * stream.y'
               :r="source_radius"
               :fill="'url(#grad'+i+')'"
-              :style="(tunedin == i ? 'stroke:white' : '')"
+              :class="{ active: tunedin == i }"
             />
             <circle
               class='source'
               :cx='x_offset + width/2 + radius * stream.x'
               :cy='y_offset + height/2 + radius * stream.y'
               :r="4"
-              :style="'stroke:'+ stream.color"
+              style="'stroke:'+ stream.color"
             />
             <circle
+              v-if="running"
               class='tunein'
               :class="{ active: tunedin == i }"
               :cx='x_offset + width/2 + radius * stream.x'
@@ -112,9 +108,11 @@
               :r="stream.rms * source_radius"
             />
             <text
+              v-if="running"
+              class='streamtitle'
+              :class="{ active: tunedin == i }"
               :x='x_offset + width/2 + radius * stream.x - 25'
-              :y='y_offset + height/2 + radius * stream.y - 15'
-              :style="'fill:' + (tunedin == i ? 'white' : '#aaa')"
+              :y='y_offset + height/2 + radius * stream.y - 18'
             >
               {{ stream.title }}
             </text>
@@ -164,7 +162,7 @@
             :key="user.id"
             :cx="x_offset + width/2 + user.x * radius"
             :cy="y_offset + height/2 + user.y * radius"
-            :r='6'
+            :r='8'
           />
           <text
             :x="x_offset + width/2 + user.x * radius + 2"
@@ -182,6 +180,10 @@
           @mousedown="dragUserStart"
           @mouseup="dragUserStop"
           @mousemove="dragUser"
+          @touchstart="dragUserStart"
+          @touchmove="touchMoveUser"
+          @touchend="dragUserStop"
+          @touchcancel="dragUserStop"
         />
       </g>
     </svg>
@@ -208,7 +210,7 @@
           <input
             type="text"
             v-model='user.name'
-            placeholder="anonym"
+            placeholder="anonymous"
             class="m-3 p-2 border-white border-b-2 bg-transparent text-center focus:outline-none"
             @keyup.enter="login"
           />
@@ -223,7 +225,7 @@
             </svg>
           </button>
           <br><br>
-          (headphones recommended)
+          (headphones or stereo speakers recommended)
         </div>
       </div>
     </div>
@@ -275,12 +277,11 @@
     </div>
   </transition>
 
-  <div class="title absolute top-0 left-0 pl-5 h-10 text-left">
+  <div class="title absolute top-5 left-0 pl-5 h-10 text-left">
     a.space <a class="text-xs" href="#" @click="about = true">about</a>
   </div>
 
-
-
+</div>
 </template>
 
 <script>
@@ -319,7 +320,7 @@ export default {
       y_offset: 0,
       drawId: undefined,
       source_radius: 50,
-      source_dist_fact: 0.55,
+      source_dist_fact: 0.6,
       tunein_fact: 0.25,
       streams: [],
       msg: '',
@@ -332,7 +333,7 @@ export default {
       messages: [],
       message_bubbles: [],
       messages_to_show: [],
-      about:false
+      about:false,
     }
   },
 
@@ -348,12 +349,14 @@ export default {
       })
 
     window.addEventListener("resize", this.onResize)
+    window.addEventListener("keydown", this.onKey)
     // window.addEventListener("mousedown", this.start)
 
   },
 
   destroyed () {
      window.removeEventListener("resize", this.onResize)
+     window.removeEventListener("keydown", this.onKey)
      // window.removeEventListener("mousedown", this.start)
      window.cancelAnimationFrame(this.drawID);
   },
@@ -472,7 +475,10 @@ export default {
       console.log('setup resonance audio');
       this.audioContext = new AudioContext()
       this.resonanceAudioScene = new ResonanceAudio(this.audioContext)
-      this.resonanceAudioScene.output.connect(this.audioContext.destination)
+
+      this.resonanceAudioGainNode = this.audioContext.createGain()
+      this.resonanceAudioScene.output.connect(this.resonanceAudioGainNode)
+      this.resonanceAudioGainNode.connect(this.audioContext.destination)
 
       const roomDimensions = {
         width: 2,
@@ -576,17 +582,77 @@ export default {
     },
 
     tuneIntoStream (id) {
+      let self = this
+      let max_gain = 0.85
+      let interval_time = 40
+
+
       if (this.tunedin != id) {
-        this.resonanceAudioScene.output.disconnect()
-        this.streams[id].audioElementSource.connect(this.audioContext.destination)
+        this.resonance_gain = self.resonanceAudioGainNode.gain.value
+        const fadeOut = setInterval(() => {
+          if (self.resonanceAudioGainNode.gain.value > 0) {
+            self.resonance_gain -= 0.1
+            self.resonanceAudioGainNode.gain.setValueAtTime(self.resonance_gain, self.audioContext.currentTime);
+          }
+          if (self.resonanceAudioGainNode.gain.value < 0.003) {
+            clearInterval(fadeOut);
+            //this.resonanceAudioScene.output.disconnect()
+          }
+        }, interval_time);
+
+        this.source_gain = 0
+        this.streams[id].gainNode = this.audioContext.createGain()
+        this.streams[id].audioElementSource.connect(this.streams[id].gainNode)
+        this.streams[id].gainNode.connect(this.audioContext.destination)
+        this.streams[id].gainNode.gain.setValueAtTime(self.source_gain, self.audioContext.currentTime);
+
+        const fadeIn= setInterval(() => {
+          if (self.streams[id].gainNode.gain.value < max_gain) {
+            self.source_gain += 0.1
+            self.streams[id].gainNode.gain.setValueAtTime(self.source_gain, self.audioContext.currentTime);
+          }
+          if (self.streams[id].gainNode.gain.value >  max_gain - 0.003) {
+            clearInterval(fadeIn);
+          }
+        }, interval_time);
+
         this.tunedin = id
       }
     },
 
     leaveStream (id) {
+      let self = this
+      let interval_time = 40
+
       if (this.tunedin == id ) {
-        this.streams[id].audioElementSource.disconnect(this.audioContext.destination)
-        this.resonanceAudioScene.output.connect(this.audioContext.destination)
+
+        const fadeOut = setInterval(() => {
+          if (self.streams[id].gainNode.gain.value > 0) {
+            self.source_gain -= 0.1
+            self.streams[id].gainNode.gain.setValueAtTime(self.source_gain, self.audioContext.currentTime);
+          }
+          if (self.streams[id].gainNode.gain.value < 0.003) {
+            clearInterval(fadeOut);
+
+            self.streams[id].gainNode.disconnect(self.audioContext.destination)
+            self.streams[id].audioElementSource.disconnect(self.streams[id].gainNode)
+          }
+        }, interval_time);
+
+        //this.resonanceAudioScene.output.connect(this.audioContext.destination)
+
+        const fadeIn= setInterval(() => {
+          if (self.resonanceAudioGainNode.gain.value < 1) {
+            self.resonance_gain += 0.1
+            self.resonanceAudioGainNode.gain.setValueAtTime(self.resonance_gain, self.audioContext.currentTime);
+          }
+          if (self.resonanceAudioGainNode.gain.value >  0.99) {
+            clearInterval(fadeIn);
+          }
+        }, interval_time);
+
+        //
+
         this.tunedin = -1
       }
     },
@@ -598,30 +664,68 @@ export default {
       })
     },
 
+    updateUserPostion () {
+      this.resonanceAudioScene.setListenerPosition(this.user.x, 0, this.user.y);
+      this.resonanceAudioScene.setListenerPosition(this.user.x, 0, this.user.y);
+      // this.socket.emit('moved', this.user);
+      this.streams.forEach((stream, i) => {
+        //console.log(i, this.distance(stream, this.user), this.tunein_fact * this.source_dist_fact)
+        if (this.distance(stream, this.user) < (this.tunein_fact * this.source_dist_fact) ) {
+          if (this.tunedin != i) {
+            this.dragUserStop()
+            console.log('tune into stream', i);
+            this.tuneIntoStream(i)
+          }
+        } else {
+          if (this.tunedin == i && this.tunedin > -1) {
+            console.log('leave stream', i);
+            this.leaveStream(i)
+          }
+        }
+      })
+      this.messages_to_show = this.messages.filter(msg => this.sameRoom(msg, this.user))
+      this.$refs.messageboard.scrollTop = this.$refs.messageboard.scrollHeight;
+      this.reArrangeAudience(this.user)
+    },
+
+    onKey (e) {
+      let min_y = (0 - this.y_offset - this.height/2) / this.radius
+      let max_y = (this.height - this.y_offset - this.height/2) / this.radius
+      let min_x = (0 - this.x_offset - this.width/2) / this.radius
+      let max_x = (this.width - this.x_offset - this.width/2) / this.radius
+      let v = this.tunedin > -1 ? 0.02 : 0.01
+      if (this.running) {
+        if (e.key == "ArrowUp") {
+          this.user.y = Math.max(min_y, this.user.y - v)
+        }
+        else if (e.key == "ArrowDown") {
+          this.user.y = Math.min(min_y*-1, this.user.y + v)
+        }
+        else if (e.key == "ArrowLeft") {
+          this.user.x = Math.max(min_x, this.user.x - v)
+        }
+        else if (e.key == "ArrowRight") {
+          this.user.x = Math.min(min_x * -1, this.user.x + v)
+        }
+        this.updateUserPostion()
+      }
+    },
+
     dragUser (e) {
       if (this.dragging) {
         this.user.x = (e.clientX - this.x_offset - this.width/2) / this.radius
         this.user.y = (e.clientY - this.y_offset - this.height/2) / this.radius
-        this.resonanceAudioScene.setListenerPosition(this.user.x, 0, this.user.y);
-        // this.socket.emit('moved', this.user);
-        this.streams.forEach((stream, i) => {
-          //console.log(i, this.distance(stream, this.user), this.tunein_fact * this.source_dist_fact)
-          if (this.distance(stream, this.user) < (this.tunein_fact * this.source_dist_fact) ) {
-            if (this.tunedin != i) {
-              this.dragUserStop()
-              console.log('tune into stream', i);
-              this.tuneIntoStream(i)
-            }
-          } else {
-            if (this.tunedin == i && this.tunedin > -1) {
-              console.log('leave stream', i);
-              this.leaveStream(i)
-            }
-          }
-        })
-        this.messages_to_show = this.messages.filter(msg => this.sameRoom(msg, this.user))
-        this.$refs.messageboard.scrollTop = this.$refs.messageboard.scrollHeight;
-        this.reArrangeAudience(this.user)
+        this.updateUserPostion()
+      }
+    },
+
+    touchMoveUser (e) {
+      if (this.dragging) {
+        let x = e.changedTouches[0].clientX
+        let y = e.changedTouches[0].clientY
+        this.user.x = (x - this.x_offset - this.width/2) / this.radius
+        this.user.y = (y - this.y_offset - this.height/2) / this.radius
+        this.updateUserPostion()
       }
     },
 
@@ -645,7 +749,6 @@ export default {
         this.dragging = false
         this.reArrangeAudience(this.user)
       }
-
     },
 
     onResize () {
@@ -655,7 +758,7 @@ export default {
           //this.width += this.width * 0.2
           this.x_offset =  -this.width * 0.2
           this.width = this.width - 2 * this.x_offset
-          this.y_offset = -this.height * 0.1
+          this.y_offset = -this.height * 0.05
           //this.width = this.width  - 2 * this.x_offset
           //this.y_offset =  -this.height * 0.2
       } else {
@@ -713,6 +816,9 @@ export default {
     },
 
     msgcolor (item) {
+      if (!this.streams.length) {
+        return "black"
+      }
       if (
         this.streams[0].color === 'red' &&
         this.streams[1].color === 'green' &&
@@ -723,11 +829,15 @@ export default {
         return 'rgba(' + colors.join(',') + ', 1)'
       } else {
         let colors = this.streams.map(s => s.color)
-        let dists = this.streams.map(s => (1 - Math.max(0, Math.min(this.source_dist_fact, this.distance(s, item)) * 1.81)))
+        let dists = this.streams.map(s => (1 - Math.max(0, Math.min(this.source_dist_fact, this.distance(s, item)) * (1/this.source_dist_fact))))
         //colors.push('white')
         //dists.push(0.1)
         return chroma.average(colors,'rgb', dists).brighten()
       }
+    },
+
+    darken(color) {
+      return chroma(color).darken(3.5)
     },
 
     deleteFromAudience (item) {
@@ -769,7 +879,7 @@ export default {
           }
         }
       })
-    }
+    },
   }
 }
 
@@ -780,39 +890,31 @@ a {
   /* color: #42b983; */
   text-decoration: underline
 }
-svg {
-  margin:0;
-  padding:0;
-}
-
-svg text {
-  fill: green
-}
 
 .players { display: none }
 
 .title {
   font-size: 1.5rem;
+  font-style: italic;
   z-index:1002;
+  color: var(--primary);
+  font-family: 'Recursive', monospace;
 }
 
 .chatbg {
   width: 33%;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   height: 20rem;
-  background: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+  background: linear-gradient(to bottom, rgba(0,0,0,1), var(--background););
 }
 
 .footer {
-  position: absolute; bottom: 10px; right: 10px;
-  font-size: 1.2rem;
-  color: green;
-  filter: grayscale();
+  color: var(--primary);
 }
 
 .bg {
   position: absolute; left: 0; top: 0; width:100%; height: 100%;
-  background:rgba(0, 0, 0, 0.3);
+  background:rgba(0, 0, 0, 0);
 
 }
 
@@ -834,7 +936,7 @@ svg text {
 }
 
 .about {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   z-index:1001;
@@ -844,6 +946,7 @@ svg text {
   overflow-anchor: none;
   overflow-y: hidden;
   direction: rtl;
+
 }
 .messageboard div {
   direction: ltr;
@@ -856,19 +959,46 @@ svg text {
 .messagecompose {
   z-index:1000;
 }
+.messagecompose input {
+  border-bottom: 1px solid rgb(255, 255, 255, 0.5)
+}
+.messagecompose input:hover {
+  border-bottom: 1px solid rgb(255, 255, 255, 1)
+}
 
+input {
+  color: rgba(255,255,255,1);
+}
+
+.messagecompose svg {
+  stroke: rgba(255,255,255, 0.5);
+}
+
+.messagecompose svg:hover {
+  stroke: rgba(255,255,255,1);
+}
+
+
+svg {
+  margin:0;
+  padding:0;
+}
+
+svg text {
+  fill: var(--primary);
+}
 
 svg .avatar {
   cursor: pointer;
-  stroke: white;
+  stroke: rgba(255,255,255, 1);
   stroke-width: 2;
-  fill: white;
+  fill: rgba(255,255,255, 1);
 }
 
 svg .audience circle {
-  stroke: gray;
+  stroke: rgba(255,255,255, 0);
   stroke-width: 2;
-  fill: gray;
+  fill: rgba(255,255,255,0.7  );
 }
 
 svg .audience text {
@@ -889,41 +1019,57 @@ svg .bubbles text {
 }
 
 svg .source {
-  stroke: green;
+  stroke: rgba(255,255,255,0.1);
   stroke-width: 4;
-  fill: none
+  fill: rgba(255,255,255, 0.5);
 }
 
 svg .tunein {
-  stroke: rgba(255, 255, 255, 0.8);
-  stroke-width: 0.5;
-  stroke-dasharray: 7,7;
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 0.8;
+  /* stroke-dasharray: 2,5; */
   fill: none;
 }
 
 svg .spread {
-  stroke: rgba(150, 150, 150, 0.6);
+  stroke: rgba(255,255,255, 0.1);
   stroke-width: 1;
 }
 
 svg .vm {
-  stroke: rgba(150, 150, 150, 0.7);
+  stroke: rgba(255, 255, 255, 0.3);
   stroke-width: 1.8;
   fill:none;
 }
 
 svg .active {
-  color: white;
-  stroke: white;
+  color: var(--primary);
+  stroke: var(--primary);
   stroke-width: 2;
 }
 
-svg text.active {
-  color: white;
-  fill: white;
+svg .active.tunein {
+  stroke: rgba(255, 255, 255, 0.25);
+  stroke-width: 1.8;
+  fill:none;
+}
+
+svg .active.streamtitle {
+  color: rgba(255,255,255,1);
+  fill: rgba(255,255,255,1);
   stroke-width: 0;
 }
 
+svg text.active {
+  color: rgba(255,255,255,1);
+  fill: rgba(255,255,255,1);
+  stroke-width: 0;
+}
+
+
+input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
 
 @media (max-width: 768px) {
   .footer { display: none}
