@@ -1,0 +1,11 @@
+{
+  "name": "testsession",
+  "version": "1.0.4",
+  "description": "run a test session",
+  "dependencies": {
+    "escape-html": "^1.0.3",
+    "lorem-ipsum": "^2.0.4",
+    "puppeteer": "^1.9.0",
+    "shortid": "^2.2.15"
+  }
+}
