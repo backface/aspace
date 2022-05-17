@@ -30,7 +30,7 @@ jobs:
       #  run: ssh staging 'sudo systemctl stop my-application'
 
       - name: Check out the source
-        run: ssh staging 'cd /home/mash/aspace/ && git fetch && git reset --hard origin/master'
+        run: ssh staging 'cd /home/mash/aspace/ && git pull'
 
       - name: Start the server
         if: ${{ always() }}

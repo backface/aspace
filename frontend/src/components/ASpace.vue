@@ -61,7 +61,7 @@
     > &nbsp;
   </div>
 
-  <div class="footer absolute right-6 bottom-3 p-1 text-sm">
+  <div class="footer absolute right-6 bottom-3 p-1">
     <p>hosted by servus.at</p>
   </div>
 
@@ -78,7 +78,7 @@
           <g v-for="(stream, i) in streams">
             <defs>
               <radialGradient :id="'grad'+i" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                <stop offset="0%" :style="'stop-color: ' + stream.color +'; stop-opacity: 1'" />
+                <stop offset="0%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0.8'" />
                 <!--<stop offset="0%" :style="'stop-color: rgb(150, 150, 150); stop-opacity: 0.6'" />-->
                 <stop offset="100%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0'" />
               </radialGradient>
@@ -201,17 +201,19 @@
       </div>
       <div class="info" :style="'top:'+ this.y_offset + 'px;'">
         <div class='w-full'>
-          <br><br>
+          <br><br><br>
           you are here<br>
           <br>
           (drag me around to change position)<br>
-          <svg xmlns="http://www.w3.org/2000/svg" style="width:100px; height:100px; display: inline-block" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
+          <div class="mt-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 inline" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+          </div>
+
           <br><br>
           <br><br>
           but first give me your name:<br>
-          <br>
           <input
             id="username"
             type="text"
@@ -250,7 +252,7 @@
   </template>
 
   <div class="title absolute top-5 left-0 pl-5 h-10 text-left">
-    a.space <a class="text-xs" href="#" @click="about = true">about</a>
+    <a @click="about = true">a.space</a>
   </div>
 
   <transition name="fade">
@@ -264,8 +266,8 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </div>
-      <div class="pb-0 md:pb-20 text-xs md:text-xl max-w-prose">
-        <h1 class="text-xl md:text-3xl my-4 md:my-10">a.space by servus.at</h1>
+      <div class="pb-0 md:pb-20 text-base max-w-prose">
+        <h1 class="my-4 md:my-10">a.space by servus.at</h1>
         <p class="mb-4">a.space is a distributed sound installation that
           interconnects events, through a directional loop affected by space,
           feedback and the audience. The set is activated on-site by
@@ -930,13 +932,15 @@ export default {
 <style scoped>
 a {
   /* color: #42b983; */
-  text-decoration: underline
+  text-decoration: none;
+  font-weight: bold;
 }
+a:hover { cursor:pointer }
 
 .players { display: none }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-style: italic;
   z-index:1002;
   color: var(--primary);
@@ -950,6 +954,7 @@ a {
 
 .footer {
   color: var(--primary);
+  font-size: 0.75rem;
 }
 
 .bg {
@@ -971,9 +976,6 @@ a {
   color:white;
 }
 
-.chat {
-
-}
 
 .about {
   background: rgba(0, 0, 0, 0.75);
@@ -1059,20 +1061,20 @@ svg .bubbles text {
 }
 
 svg .source {
-  stroke: rgba(255,255,255,0.1);
+  stroke: rgba(255,255,255, 0.1);
   stroke-width: 4;
   fill: rgba(255,255,255, 0.3);
 }
 
 svg .tunein {
-  stroke: rgba(255, 255, 255, 0.15);
+  stroke: rgba(255, 255, 255, 0.2);
   stroke-width: 0.8;
   /* stroke-dasharray: 2,5; */
   fill: none;
 }
 
 svg .spread {
-  stroke: rgba(255,255,255, 0.1);
+  stroke: rgba(255,255,255, 0.2);
   stroke-width: 1;
 }
 

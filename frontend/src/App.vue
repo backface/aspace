@@ -14,14 +14,14 @@ import "@fontsource/noto-mono";
 :root {
   --background: #222222;
   --primary: #ff6969;
-  --primary: rgba(255,255,255,0.6);
+  --primary: rgba(255,255,255,0.7);
 }
 
 body, html, #app {
   background: var(--background);
   color: var(--primary);
-  height: 100vh;
-  width: 100vw;
+  height:100vh;
+  width:100vw;
   margin:0;
   padding:0;
 }
