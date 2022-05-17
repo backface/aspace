@@ -25,4 +25,29 @@ You should have received a copy of the GNU Affero General Public License along w
 
 ## Project setup
 
-see reference build and deployment via docker/podman
+just run:
+
+```
+docker-composer up --build 
+```
+
+see Dockerfile for detailed build instructions
+
+## Development
+
+Frontend/UI:
+
+```
+  cd frontend
+  npm install
+  npm run dev
+```
+
+Backend/server:
+
+```
+  cd backend 
+  npm install
+  npm run startdev
+```  
+  
