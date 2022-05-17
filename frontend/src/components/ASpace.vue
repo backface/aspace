@@ -1,6 +1,7 @@
 <template>
 <div
   id="aspace"
+  ref="aspace"
   class="absolute bottom-0 left-0 w-full h-full"
   :style="{ background: darken(msgcolor(user)) }"
 >
@@ -35,24 +36,27 @@
   </div>
   <div
     v-if="running"
-    class="messagecompose absolute bottom-2 left-0 w-full md:w-1/3 pl-3 text-left"
+    class="messagecompose absolute bottom-2 left-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex pl-3 items-end text-left"
   >
     <input
       id="message"
       type="text"
       v-model='msg'
       placeholder="type message here  "
-      class="w-4/6 m-2 p-2 pl-1 bg-transparent text-left focus:outline-none"
+      class="flex-grow m-2 p-2 pl-1 bg-transparent text-left focus:outline-none"
       @keyup.enter="sendMessage"
     />
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-      class="inline hover:cursor-pointer feather feather-send"
-      @click="sendMessage"
-      id="send-message"
-    >
-      <line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-    </svg>
+    <div class="mb-4 mr-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="inline hover:cursor-pointer feather feather-send"
+        @click="sendMessage"
+        id="send-message"
+      >
+        <line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </div>
+
   </div>
   <div v-if="running" class="chatbg absolute top-0 left-0"
     :style="{
@@ -266,7 +270,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </div>
-      <div class="pb-0 md:pb-20 text-base max-w-prose">
+      <div class="pb-10 md:pb-20 text-xs sm:text-sm md:text-base max-w-prose">
         <h1 class="my-4 md:my-10">a.space by servus.at</h1>
         <p class="mb-4">a.space is a distributed sound installation that
           interconnects events, through a directional loop affected by space,
@@ -787,8 +791,8 @@ export default {
     },
 
     onResize () {
-      this.width = this.$refs.diagram.clientWidth // window.innerWidth; // el.clientWidth;
-      this.height =this.$refs.diagram.clientHeight // window.innerHeight; // this.width * 9 / 16;
+      this.width = this.$refs.aspace.clientWidth // window.innerWidth; // el.clientWidth;
+      this.height =this.$refs.aspace.clientHeight // window.innerHeight; // this.width * 9 / 16;
       if (this.height > this.width) {
           //this.width += this.width * 0.2
           this.x_offset =  -this.width * 0.2
