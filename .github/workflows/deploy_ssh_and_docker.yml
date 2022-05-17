@@ -6,7 +6,7 @@ jobs:
   deploy:
     name: "Deploy via SSH and docker-compose"
     runs-on: ubuntu-latest
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     # needs: test
     steps:
       - name: Configure SSH
@@ -29,9 +29,9 @@ jobs:
       #- name: Stop the server
       #  run: ssh staging 'sudo systemctl stop my-application'
 
-      - name: Check out the source
+      - name: Check out the sources
         run: ssh staging 'cd /home/mash/aspace/ && git pull'
 
-      - name: Start the server
+      - name: Rebuild with docker-compose
         if: ${{ always() }}
         run: ssh staging 'cd /home/mash/aspace/ && docker-compose up -d --build'
