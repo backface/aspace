@@ -1,6 +1,5 @@
 <script setup>
 import ASpace from './components/ASpace.vue'
-import HelloWorld from './components/HelloWorld.vue'
 import './index.css'
 import "@fontsource/noto-mono";
 
