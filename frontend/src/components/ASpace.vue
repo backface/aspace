@@ -54,12 +54,11 @@
       <line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
     </svg>
   </div>
-  <div v-if="running" class="chatbg absolute top-0 left-0 pl-5 h-10 text-left"
+  <div v-if="running" class="chatbg absolute top-0 left-0"
     :style="{
       background: 'linear-gradient(to bottom, ' + darken(msgcolor(user)) + ', rgba(0,0,0,0))'
       }"
-    >
-    &nbsp;
+    > &nbsp;
   </div>
 
   <div class="footer absolute right-6 bottom-3 p-1 text-sm">
@@ -945,8 +944,7 @@ a {
 
 .chatbg {
   width: 33%;
-  font-size: 1.8rem;
-  height: 50vh;
+  height: 100%;
   background: linear-gradient(to bottom, rgba(0,0,0,1), var(--background););
 }
 
