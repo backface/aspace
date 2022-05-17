@@ -20,8 +20,8 @@ import "@fontsource/noto-mono";
 body, html, #app {
   background: var(--background);
   color: var(--primary);
-  height:100vh;
-  width:100vw;
+  height:100%;
+  width:100%;
   margin:0;
   padding:0;
 }
