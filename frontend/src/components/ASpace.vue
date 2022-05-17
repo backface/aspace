@@ -250,10 +250,14 @@
     </div>
   </template>
 
+  <div class="title absolute top-5 left-0 pl-5 h-10 text-left">
+    a.space <a class="text-xs" href="#" @click="about = true">about</a>
+  </div>
+
   <transition name="fade">
     <div
       v-if="about"
-      class="about p-10 absolute top-0 left-0 w-full h-full flex items-center justify-center text-left"
+      class="about p-5 md:p-10 absolute top-0 left-0 w-full h-full flex items-center justify-center text-left"
 
     >
       <div @click="about = false" class="absolute top-3 right-3 hover:text-white hover:cursor-pointer">
@@ -261,7 +265,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </div>
-      <div class="pb-20 text-xs md:text-xl max-w-prose">
+      <div class="pb-0 md:pb-20 text-xs md:text-xl max-w-prose">
         <h1 class="text-xl md:text-3xl my-4 md:my-10">a.space by servus.at</h1>
         <p class="mb-4">a.space is a distributed sound installation that
           interconnects events, through a directional loop affected by space,
@@ -277,7 +281,7 @@
            in collaboration with bb15, Emanat Institute, Ústí nad Labem House of Arts.
             Web Interface developed by <a href="https://m.ash.to">Michael Aschauer</a>.
         </p>
-        <p class="mb-4">June 16th - from (15:00 to 19:00) in the frame of
+        <p class="mb-0 md:mb-4">June 16th - from (15:00 to 19:00) in the frame of
           AMRO22, accessible online at <a href="https://a-space.servus.at">a-space.servus.at</a>
         </p>
       </div>
@@ -285,9 +289,7 @@
     </div>
   </transition>
 
-  <div class="title absolute top-5 left-0 pl-5 h-10 text-left">
-    a.space <a class="text-xs" href="#" @click="about = true">about</a>
-  </div>
+
 
 </div>
 </template>
@@ -944,7 +946,7 @@ a {
 .chatbg {
   width: 33%;
   font-size: 1.8rem;
-  height: 30em;
+  height: 50vh;
   background: linear-gradient(to bottom, rgba(0,0,0,1), var(--background););
 }
 
@@ -979,7 +981,7 @@ a {
   background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
-  z-index:1001;
+  z-index:1003;
 }
 
 .messageboard {
