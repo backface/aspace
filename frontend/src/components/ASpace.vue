@@ -573,12 +573,29 @@ export default {
             }
           })
         //.nodes(stream.nodes)
-
-
-
       })
       this.resonanceAudioScene.setListenerPosition(this.user.x, 0, this.user.y);
       this.updateAnimation()
+
+      /*
+      this.other_nodes =[]
+      this.other_forces = forceSimulation()
+        .force("charge", forceManyBody())
+        .force('collision', forceCollide().radius(0.02)) //10))
+        .on('tick', function() {
+          if (self.other_nodes.length) {
+            self.other_nodes.forEach( (i) => {
+              //console.log(i.id, i.x, i.y, i.vx, i.vy)
+              //self.audience[i.id].x = self.width/2 + i.x * self.radius
+              //self.audience[i.id].y = self.height/2 + node.y * self.radius
+              if (self.audience[i.id]) {
+                self.audience[i.id].x = i.x
+                self.audience[i.id].y = i.y
+              }
+            })
+          }
+        })
+      */
     },
 
     tuneIntoStream (id) {
@@ -665,7 +682,6 @@ export default {
     },
 
     updateUserPostion () {
-      this.resonanceAudioScene.setListenerPosition(this.user.x, 0, this.user.y);
       this.resonanceAudioScene.setListenerPosition(this.user.x, 0, this.user.y);
       // this.socket.emit('moved', this.user);
       this.streams.forEach((stream, i) => {
@@ -837,7 +853,7 @@ export default {
     },
 
     darken(color) {
-      return chroma(color).darken(3.5)
+      return chroma(color).darken(4)
     },
 
     deleteFromAudience (item) {
@@ -852,6 +868,7 @@ export default {
 
     reArrangeAudience (item) {
       let self = this
+      //self.other_nodes = []
       self.streams.forEach((stream, i) => {
         //console.log(i, this.distance(stream, this.user), this.tunein_fact * this.source_dist_fact)
         if (stream.nodes.find( node => node.id == item.id )) {
@@ -867,6 +884,8 @@ export default {
             stream.nodes = stream.nodes.filter( node => node.id != item.id )
             stream.force.nodes(stream.nodes)
             stream.force.alpha(1).restart()
+            //let node = {...item}
+            //self.other_nodes.push(node)
           }
         } else {
           if (self.distance(stream, item) < (this.tunein_fact * this.source_dist_fact) ) {
@@ -876,9 +895,15 @@ export default {
             stream.nodes.push(node)
             stream.force.nodes(stream.nodes)
             stream.force.alpha(1).restart()
+          } else {
+            //let node = {...item}
+            //console.log(node);
+            //self.other_nodes.push(node)
           }
         }
       })
+      //self.other_forces.nodes(self.other_nodes)
+      //self.other_forces.alpha(1).restart()
     },
   }
 }
@@ -898,7 +923,6 @@ a {
   font-style: italic;
   z-index:1002;
   color: var(--primary);
-  font-family: 'Recursive', monospace;
 }
 
 .chatbg {
@@ -1021,7 +1045,7 @@ svg .bubbles text {
 svg .source {
   stroke: rgba(255,255,255,0.1);
   stroke-width: 4;
-  fill: rgba(255,255,255, 0.5);
+  fill: rgba(255,255,255, 0.3);
 }
 
 svg .tunein {
@@ -1040,6 +1064,12 @@ svg .vm {
   stroke: rgba(255, 255, 255, 0.3);
   stroke-width: 1.8;
   fill:none;
+}
+
+svg .streamtitle {
+  color: rgba(255,255,255,0.8);
+  fill: rgba(255,255,255, 0.8);
+  stroke-width: 0;
 }
 
 svg .active {

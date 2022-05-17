@@ -2,6 +2,8 @@
 import ASpace from './components/ASpace.vue'
 import HelloWorld from './components/HelloWorld.vue'
 import './index.css'
+import "@fontsource/noto-mono";
+
 </script>
 
 <template>
@@ -9,9 +11,6 @@ import './index.css'
 </template>
 
 <style>
-
-@import url('https://fonts.googleapis.com/css2?family=Recursive&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap');
 
 :root {
   --background: #222222;
@@ -28,7 +27,7 @@ body, html, #app {
   padding:0;
 }
 #app {
-	font-family: 'Noto Sans Mono', 'Recursive', monospace;
+	font-family: 'Noto Mono', monospace;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

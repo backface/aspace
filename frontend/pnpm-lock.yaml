@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@fontsource/noto-mono': ^4.5.3
   '@vitejs/plugin-vue': ^2.3.1
   autolinker: ^3.15.0
   autoprefixer: ^10.4.7
@@ -21,6 +22,7 @@ specifiers:
   web-audio-peak-meter: ^2.1.0
 
 dependencies:
+  '@fontsource/noto-mono': 4.5.3
   autolinker: 3.15.0
   chroma-js: 2.4.2
   custom-vue-scrollbar: 0.0.7
@@ -55,6 +57,10 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
+    dev: false
+
+  /@fontsource/noto-mono/4.5.3:
+    resolution: {integrity: sha512-d6xHqBCkkZZk+8Sq4MahON+TDOHpeNP76woozj52VVSmaVa1dgzdZAsSXREUgmCnOLjVaDb5SLI3WkUDQJhqmg==}
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
