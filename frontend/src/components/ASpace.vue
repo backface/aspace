@@ -1,5 +1,6 @@
 <template>
 <div
+  id="aspace"
   class="absolute bottom-0 left-0 w-full h-full"
   :style="{ background: darken(msgcolor(user)) }"
   @keyup="onKey"
@@ -38,6 +39,7 @@
     class="messagecompose absolute bottom-2 left-0 w-full md:w-1/3 pl-3 text-left"
   >
     <input
+      id="message"
       type="text"
       v-model='msg'
       placeholder="type message here  "
@@ -48,11 +50,16 @@
       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
       class="inline hover:cursor-pointer feather feather-send"
       @click="sendMessage"
+      id="send-message"
     >
       <line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
     </svg>
   </div>
-  <div v-if="running" class="chatbg absolute top-0 left-0 pl-5 h-10 bg-black text-left">
+  <div v-if="running" class="chatbg absolute top-0 left-0 pl-5 h-10 text-left"
+    :style="{
+      background: 'linear-gradient(to bottom, ' + darken(msgcolor(user)) + ', rgba(0,0,0,0))'
+      }"
+    >
     &nbsp;
   </div>
 
@@ -208,6 +215,7 @@
           but first give me your name:<br>
           <br>
           <input
+            id="username"
             type="text"
             v-model='user.name'
             placeholder="anonymous"
@@ -216,6 +224,7 @@
           />
             <br>
           <button
+            id="login"
             type="button"
             name="button"
             @click="login"
@@ -928,7 +937,7 @@ a {
 .chatbg {
   width: 33%;
   font-size: 1.8rem;
-  height: 20rem;
+  height: 30em;
   background: linear-gradient(to bottom, rgba(0,0,0,1), var(--background););
 }
 
