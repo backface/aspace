@@ -3,7 +3,6 @@
   id="aspace"
   class="absolute bottom-0 left-0 w-full h-full"
   :style="{ background: darken(msgcolor(user)) }"
-  @keyup="onKey"
 >
   <div
     v-if="running"
@@ -358,14 +357,16 @@ export default {
       })
 
     window.addEventListener("resize", this.onResize)
-    window.addEventListener("keydown", this.onKey)
+    window.addEventListener("keydown", this.onKeyDown)
+    window.addEventListener("keyup", this.onKeyUp)
     // window.addEventListener("mousedown", this.start)
 
   },
 
   destroyed () {
      window.removeEventListener("resize", this.onResize)
-     window.removeEventListener("keydown", this.onKey)
+     window.removeEventListener("keydown", this.onKeyDown)
+    window.removeEventListener("keyup", this.onKeyUp)
      // window.removeEventListener("mousedown", this.start)
      window.cancelAnimationFrame(this.drawID);
   },
@@ -713,7 +714,7 @@ export default {
       this.reArrangeAudience(this.user)
     },
 
-    onKey (e) {
+    onKeyDown (e) {
       let min_y = (0 - this.y_offset - this.height/2) / this.radius
       let max_y = (this.height - this.y_offset - this.height/2) / this.radius
       let min_x = (0 - this.x_offset - this.width/2) / this.radius
@@ -733,6 +734,12 @@ export default {
           this.user.x = Math.min(min_x * -1, this.user.x + v)
         }
         this.updateUserPostion()
+      }
+    },
+
+    onKeyUp(e) {
+      if (this.running) {
+        this.socket.emit('moved', this.user)
       }
     },
 
