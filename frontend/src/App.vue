@@ -18,8 +18,12 @@ import "@fontsource/noto-mono";
   --appheight: 100%;
 }
 
-html{
-  overscroll-behavior: none
+html {
+  overscroll-behavior: none;
+}
+
+body {
+  overscroll-behavior-y: contain;
 }
 
 body, html, #app {
