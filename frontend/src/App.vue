@@ -15,12 +15,13 @@ import "@fontsource/noto-mono";
   --background: #222222;
   --primary: #ff6969;
   --primary: rgba(255,255,255,0.7);
+  --appheight: 100%;
 }
 
 body, html, #app {
   background: var(--background);
   color: var(--primary);
-  height:100%;
+  height: var(--appheight);
   width:100%;
   margin:0;
   padding:0;

@@ -37,6 +37,7 @@
   <div
     v-if="running"
     class="messagecompose absolute bottom-2 left-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex pl-3 items-end text-left"
+    @mouseenter="dragUserStop"
   >
     <input
       id="message"
@@ -73,9 +74,6 @@
     <svg
       ref="diagram"
       class="mx-auto h-full w-full"
-      @mousemove="dragUser"
-      @mouseleave="dragUserStop"
-      @mouseup="dragUserStop"
     >
       <g>
         <g class="streams">0
