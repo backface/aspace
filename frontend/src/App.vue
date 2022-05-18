@@ -40,7 +40,6 @@ body, html, #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #6c7e80;
 }
 
 /* transitions */

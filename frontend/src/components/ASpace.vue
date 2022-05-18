@@ -937,7 +937,10 @@ a {
   text-decoration: none;
   font-weight: bold;
 }
-a:hover { cursor:pointer }
+a:hover {
+  color: rgba(255,255,255,1);
+  cursor:pointer
+}
 
 .players { display: none }
 
