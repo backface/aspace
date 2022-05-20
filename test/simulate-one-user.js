@@ -17,9 +17,8 @@ var wait = ms => new Promise(resolve => setTimeout(resolve, ms));
       deviceScaleFactor: 1,
   });
 
-
   console.log("load page")
-  await page.goto('http://localhost:8001');
+  await page.goto('http://aspace.backface.io');
 
   console.log("wait for login")
   await page.waitFor('#username')
