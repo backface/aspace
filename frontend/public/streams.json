@@ -8,13 +8,13 @@
    },
    {
      "id": 2,
-     "src": "http://ice.pretok.tv:8000/linz.opus ",
+     "src": "http://ice.pretok.tv:8000/linz.opus",
      "title": "Linz",
      "color": "#FABF32"
    },
    {
      "id": 3,
-     "src": "http://ice.pretok.tv:8000/usti.ogg ",
+     "src": "http://ice.pretok.tv:8000/usti.ogg",
      "title": "Ústí nad Labem",
      "color": "#8E3FFA"
    }
