@@ -94,16 +94,16 @@
                 <stop offset="100%" :style="'stop-color: ' + stream.color +'; stop-opacity: 0'" />
               </radialGradient>
             </defs>
-            <circle
-              class="spread"
-              :cx='x_offset + width/2 + radius * stream.x'
-              :cy='y_offset + height/2 + radius * stream.y'
-              :r="source_radius"
-              :fill="'url(#grad'+i+')'"
-              :class="{ active: tunedin == i }"
-            />
+              <circle
+                class="spread"
+                :cx='x_offset + width/2 + radius * stream.x'
+                :cy='y_offset + height/2 + radius * stream.y'
+                :r="source_radius"
+                :fill="'url(#grad'+i+')'"
+                :class="{ active: tunedin == i }"
+              />
 
-            <g class="arrow">
+            <g v-if="running && showArrows" class="arrow">
               <path
                 :d="'M ' + stream.aa.x + ' ' + stream.aa.y + ' A ' + radius * 0.5 + ' ' + radius * 0.5 + ' 0 0 1 ' + stream.ab.x + ' ' + stream.ab.y"
                 marker-end="url(#arrow)"
@@ -125,7 +125,7 @@
               :cy='y_offset + height/2 + radius * stream.y'
               :r="source_radius * tunein_fact"
             />
-            <circle
+            <circle v-if="stream.rms > 0"
               class='vm'
               :cx='x_offset + width/2 + radius * stream.x'
               :cy='y_offset + height/2 + radius * stream.y'
@@ -171,6 +171,7 @@
       ref="diagram"
       class="mx-auto h-full w-full"
       @mousemove="dragUser"
+      @mousedown="mouseWasDown=true"
       @mouseleave="dragUserStop"
       @mouseup="dragUserStop"
     >
@@ -179,7 +180,7 @@
           <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
         </filter>
       </defs>
-      <g v-if="audience.length">
+      <g>
         <g v-for="user in audience" class="audience">
           <circle
             :key="user.id"
@@ -194,20 +195,21 @@
             {{ user.name }}
           </text>
         </g>
-
-        <circle
-          class='avatar'
-          :cx="x_offset + width/2 + user.x * radius"
-          :cy="y_offset + height/2 + user.y * radius"
-          :r='10'
-          @mousedown="dragUserStart"
-          @mouseup="dragUserStop"
-          @mousemove="dragUser"
-          @touchstart="dragUserStart"
-          @touchmove="touchMoveUser"
-          @touchend="dragUserStop"
-          @touchcancel="dragUserStop"
-        />
+        <g v-if="radius">
+          <circle
+            class='avatar'
+            :cx="x_offset + width/2 + user.x * radius"
+            :cy="y_offset + height/2 + user.y * radius"
+            :r='10'
+            @mousedown="dragUserStart"
+            @mouseup="dragUserStop"
+            @mousemove="dragUser"
+            @touchstart="dragUserStart"
+            @touchmove="touchMoveUser"
+            @touchend="dragUserStop"
+            @touchcancel="dragUserStop"
+          />
+        </g>
       </g>
     </svg>
   </div>
@@ -364,14 +366,18 @@ export default {
       message_bubbles: [],
       messages_to_show: [],
       about:false,
+      mouseWasDown: false
     }
   },
 
   mounted () {
-    fetch("/streams.json")
+    fetch("/streams_config.json")
       .then((response) => response.json())
       .then((config) => {
          this.streams = config.streams;
+         if (config.showArrows) {
+           this.showArrows = config.showArrows
+         }
          this.streams.forEach((item, i) => {
            item.rms = 0.0
          });
@@ -805,6 +811,7 @@ export default {
     },
 
     dragUserStart () {
+      this.mouseWasDown = true
       this.dragging = true
     },
 
@@ -818,10 +825,24 @@ export default {
       }
     },
 
-    dragUserStop () {
+    dragUserStop (e) {
       if (this.dragging) {
         this.socket.emit('moved', this.user)
         this.dragging = false
+        this.reArrangeAudience(this.user)
+      } else {
+        this.mouseClicked(e)
+        this.mouseWasDown = false
+      }
+
+    },
+
+    mouseClicked (e) {
+      if (!this.dragging && this.mouseWasDown) {
+        this.dragging = true
+        this.dragUser(e)
+        this.dragging = false
+        this.socket.emit('moved', this.user)
         this.reArrangeAudience(this.user)
       }
     },
@@ -936,6 +957,7 @@ export default {
         if (stream.nodes.find( node => node.id == item.id )) {
           stream.nodes = stream.nodes.filter( node => node.id != item.id )
           stream.force.nodes(stream.nodes)
+          this.mouseWasDown = false
           stream.force.alpha(1).restart()
         }
       })
@@ -954,10 +976,12 @@ export default {
             // node.y = self.height/2 + node.y * self.radius
             stream.nodes.push(node)
             stream.force.nodes(stream.nodes)
+            this.mouseWasDown = false
             stream.force.alpha(1).restart()
           } else {
             stream.nodes = stream.nodes.filter( node => node.id != item.id )
             stream.force.nodes(stream.nodes)
+            this.mouseWasDown = false
             stream.force.alpha(1).restart()
             //let node = {...item}
             //self.other_nodes.push(node)
@@ -969,6 +993,7 @@ export default {
             // node.y = self.height/2 + node.y * self.radius
             stream.nodes.push(node)
             stream.force.nodes(stream.nodes)
+            this.mouseWasDown = false
             stream.force.alpha(1).restart()
           } else {
             //let node = {...item}
@@ -1097,9 +1122,9 @@ svg .avatar {
 }
 
 svg .audience circle {
-  stroke: rgba(255,255,255, 0);
-  stroke-width: 2;
-  fill: rgba(255,255,255,0.7  );
+  stroke: rgba(255,255,255, 0.7);
+  stroke-width: 1.5;
+  fill: rgba(255,255,255, 0.0);
 }
 
 svg .audience text {
