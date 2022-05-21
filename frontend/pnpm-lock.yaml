@@ -9,6 +9,8 @@ specifiers:
   custom-vue-scrollbar: ^0.0.7
   d3: ^7.4.4
   d3-force: ^3.0.0
+  d3-path: ^3.0.1
+  d3-shape: ^3.1.0
   locutus: ^2.0.16
   postcss: ^8.4.13
   randomcolor: ^0.6.2
@@ -28,6 +30,8 @@ dependencies:
   custom-vue-scrollbar: 0.0.7
   d3: 7.4.4
   d3-force: 3.0.0
+  d3-path: 3.0.1
+  d3-shape: 3.1.0
   locutus: 2.0.16
   randomcolor: 0.6.2
   resonance-audio: 1.0.0

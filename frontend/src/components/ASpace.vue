@@ -75,6 +75,15 @@
       ref="diagram"
       class="mx-auto h-full w-full"
     >
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10"
+          refX="1" refY="5"
+          markerUnits="strokeWidth"
+          markerWidth="12" markerHeight="12"
+          orient="auto">
+          <polyline points="0 0 10 5 0 10" fill="white" />
+      </marker>
+     </defs>
       <g>
         <g class="streams">
           <g v-for="(stream, i) in streams">
@@ -93,6 +102,14 @@
               :fill="'url(#grad'+i+')'"
               :class="{ active: tunedin == i }"
             />
+
+            <g class="arrow">
+              <path
+                :d="'M ' + stream.aa.x + ' ' + stream.aa.y + ' A ' + radius * 0.5 + ' ' + radius * 0.5 + ' 0 0 1 ' + stream.ab.x + ' ' + stream.ab.y"
+                marker-end="url(#arrow)"
+               />
+            </g>
+
             <circle
               class='source'
               :cx='x_offset + width/2 + radius * stream.x'
@@ -118,7 +135,7 @@
               v-if="running"
               class='streamtitle'
               :class="{ active: tunedin == i }"
-              :x='x_offset + width/2 + radius * stream.x - 25'
+              :x='x_offset + width/2 + radius * stream.x'
               :y='y_offset + height/2 + radius * stream.y - 18'
             >
               {{ stream.title }}
@@ -306,6 +323,7 @@ import { forceSimulation }  from 'd3-force';
 import { forceManyBody }  from 'd3-force';
 import { forceCollide }  from 'd3-force';
 import { forceRadial }  from 'd3-force';
+//import { arc }  from 'd3-shape';
 import chroma from "chroma-js"
 //import randomColor from 'randomcolor'
 //import Autolinker from 'autolinker';
@@ -359,8 +377,8 @@ export default {
          });
 
          this.loaded = true
-         this.onResize()
          this.calculateSourcePositions()
+         this.onResize()
          // this.setupAudio()
       })
 
@@ -692,10 +710,27 @@ export default {
       }
     },
 
+    polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+      var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+
+      return {
+        x: centerX + (radius * Math.cos(angleInRadians)),
+        y: centerY + (radius * Math.sin(angleInRadians))
+      };
+    },
+
     calculateSourcePositions () {
       this.streams.forEach((stream, i) => {
         stream.x = 0.5 * Math.cos((i * 360 - 45)/this.streams.length * 0.0174532925)
         stream.y = 0.5 * Math.sin((i * 360 - 45)/this.streams.length * 0.0174532925)
+        /*
+        stream.arrow  = arc()({
+          innerRadius: this.radius * 0.5,
+          outerRadius: this.radius * 0.5,
+          startAngle: (225 + (i+1) * 360 - 45)/this.streams.length * 0.0174532925,
+          endAngle: (225 + i * 360 + 45)/this.streams.length * 0.0174532925
+          })
+        */
       })
     },
 
@@ -805,8 +840,24 @@ export default {
         this.x_offset = 0
         this.y_offset = -this.height * 0.05
       }
+
       this.radius = Math.min(this.height, this.width) / 2 * 1.3
       this.source_radius = Math.min(this.height, this.width) / 2 * this.source_dist_fact * 1.3
+
+      this.streams.forEach((stream, i) => {
+        stream.aa = this.polarToCartesian(
+          this.x_offset + this.width/2,
+          this.y_offset + this.height/2,
+          this.radius * 0.5,
+          90 + (i * 360 - 45 + 90)/this.streams.length
+        )
+        stream.ab = this.polarToCartesian(
+          this.x_offset + this.width/2,
+          this.y_offset + this.height/2,
+          this.radius * 0.5,
+          90 + ((i + 1) * 360 - 45 - 95)/this.streams.length
+        )
+      });
       this.$forceUpdate()
     },
 
@@ -1096,6 +1147,7 @@ svg .streamtitle {
   color: rgba(255,255,255,0.8);
   fill: rgba(255,255,255, 0.8);
   stroke-width: 0;
+  text-anchor: middle;
 }
 
 svg .active {
@@ -1122,6 +1174,15 @@ svg text.active {
   stroke-width: 0;
 }
 
+svg .arrow path, polyline {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1;
+}
+svg .arrow path {
+  stroke-dasharray: 12, 4;
+}
 
 input::placeholder {
   color: rgba(255,255,255,0.5);
