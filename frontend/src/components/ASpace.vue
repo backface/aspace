@@ -76,7 +76,7 @@
       class="mx-auto h-full w-full"
     >
       <g>
-        <g class="streams">0
+        <g class="streams">
           <g v-for="(stream, i) in streams">
             <defs>
               <radialGradient :id="'grad'+i" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
@@ -162,8 +162,7 @@
           <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
         </filter>
       </defs>
-      <g>
-
+      <g v-if="audience.length">
         <g v-for="user in audience" class="audience">
           <circle
             :key="user.id"
@@ -355,6 +354,10 @@ export default {
       .then((response) => response.json())
       .then((config) => {
          this.streams = config.streams;
+         this.streams.forEach((item, i) => {
+           item.rms = 0.0
+         });
+
          this.loaded = true
          this.onResize()
          this.calculateSourcePositions()
@@ -371,7 +374,7 @@ export default {
   destroyed () {
      window.removeEventListener("resize", this.onResize)
      window.removeEventListener("keydown", this.onKeyDown)
-    window.removeEventListener("keyup", this.onKeyUp)
+     window.removeEventListener("keyup", this.onKeyUp)
      // window.removeEventListener("mousedown", this.start)
      window.cancelAnimationFrame(this.drawID);
   },
