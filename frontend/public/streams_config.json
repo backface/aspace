@@ -2,22 +2,22 @@
   "streams": [
    {
      "id": 1,
-     "src": "http://ice.pretok.tv:8000/ljub.ogg",
-     "title":"Ljubljana",
+     "src": "https://cba.fro.at/wp-content/uploads/lachansonfreequenns/siegbert-schwab-la-chanson-2020.11.14_preview.mp3",
+     "title":"La Choix est le dilemme",
      "color": "#19FAA2"
    },
    {
      "id": 2,
-     "src": "http://ice.pretok.tv:8000/linz.opus",
-     "title": "Linz",
+     "src": "https://cba.fro.at/wp-content/uploads/kulturbildungspezial/kundbpezial-20200717_preview.mp3",
+     "title": "Greenwashing & Extinction Rebellion",
      "color": "#FABF32"
    },
    {
      "id": 3,
-     "src": "http://ice.pretok.tv:8000/usti.ogg",
-     "title": "Ústí nad Labem",
+     "src": "http://amp1.cesnet.cz:8000/cro-jazz-256.ogg",
+     "title": "CRo Jazz",
      "color": "#8E3FFA"
    }
- ],
- "showArrows": true
+  ],
+  "showArrows": true
 }
