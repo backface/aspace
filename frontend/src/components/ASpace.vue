@@ -288,22 +288,33 @@
       </div>
       <div class="pb-10 md:pb-20 text-xs sm:text-sm md:text-base max-w-prose">
         <h1 class="my-4 md:my-10">a.space by servus.at</h1>
-        <p class="mb-4">a.space is a distributed sound installation that
-          interconnects events, through a directional loop affected by space,
-          feedback and the audience. The set is activated on-site by
-           Stefan Tiefengraber in Linz, Polina Khatsenka in Ústí nad Labem,
-           Luka Prinčič and ala pecula in Ljubljana. Through a virtual
-           platform it is possible to listen, choose a point of perspective and
-           interact with others. The project explores the heterogeneity of time
-           and space, in search of points of communication and synchronicity.
+        <p class="mb-4">
+           a.space is a distributed sound installation, that interconnects 3
+           spaces through a directional loop, affected by space, feedback and
+           acoustic events. Each set is activated by
+           <a href="http://www.stefantiefengraber.com/">Stefan Tiefengraber</a> in Linz,
+           <a href="https://www.works.io/polina-khatsenka">Polina Khatsenka</a>
+            in Ústí nad Labem,
+            <a href="https://lukaprincic.si/">Luka Prinčič</a> and
+            <a href="https://alapecula.zone/">ala pecula</a> in Ljubljana.
+            Through a virtual platform it is possible to listen, choose a point
+            of perspective and interact with others. The web Interface
+            developed by <a href="https://m.ash.to">Michael Aschauer</a>,
+            will be shared as an <a href="https://github.com/backface/aspace">open source</a>
+            tool for further use.
         </p>
-        <p class="mb-4">It is conceptualized by Davide Bevilaqua and Gabriela Gordillo.
-           Realized by <a href="https://servus.at">servus.at</a> with the support of Linz_Sounds 2021,
-           in collaboration with bb15, Emanat Institute, Ústí nad Labem House of Arts.
-            Web Interface developed by <a href="https://m.ash.to">Michael Aschauer</a>.
+        <p class="mb-4">
+          The project was conceptualized by Davide Bevilacqua and Gabriela Gordillo,
+          realized by <a href="https://servus.at">servus.at</a> in the frame of
+          <a href="https://art-meets.radical-openness.org/">AMRO22</a>,
+          in collaboration with <a href="https://bb15.at/">bb15</a>,
+          <a href="https://emanat.si/">Emanat Institute</a>,
+          <a href="https://duul.cz/en/">Ústí nad Labem House of Arts</a>,
+          with the support of Linz_Sounds 2021.
         </p>
-        <p class="mb-0 md:mb-4">June 16th - from (15:00 to 19:00) in the frame of
-          AMRO22, accessible online at <a href="https://a-space.servus.at">a-space.servus.at</a>
+        <p class="mb-0 md:mb-4">
+          Exhibition: June 16th, from 15:00 to 18:00 hrs, accessible online at
+          <a href="https://a-space.servus.at">a-space.servus.at</a>
         </p>
       </div>
 
@@ -1015,6 +1026,7 @@ a {
   /* color: #42b983; */
   text-decoration: none;
   font-weight: bold;
+  color: rgba(255,255,255,1);
 }
 a:hover {
   color: rgba(255,255,255,1);
