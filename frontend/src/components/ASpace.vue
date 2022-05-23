@@ -597,8 +597,13 @@ export default {
         stream.analyser.getByteTimeDomainData(stream.dataArray);
         stream.audioElementSource.connect(stream.analyser)
 
-        stream.nodes = []
+        stream.source_gain = 0
+        stream.gainNode = this.audioContext.createGain()
+        stream.audioElementSource.connect(stream.gainNode)
+        stream.gainNode.connect(this.audioContext.destination)
+        stream.gainNode.gain.setValueAtTime(stream.source_gain, self.audioContext.currentTime);
 
+        stream.nodes = []
         stream.force = forceSimulation()
           //.force("charge", forceManyBody())
           .force('collision', forceCollide().radius(0.02)) //10))
@@ -656,7 +661,6 @@ export default {
       let max_gain = 0.85
       let interval_time = 40
 
-
       if (this.tunedin != id) {
         this.resonance_gain = self.resonanceAudioGainNode.gain.value
         const fadeOut = setInterval(() => {
@@ -666,20 +670,13 @@ export default {
           }
           if (self.resonanceAudioGainNode.gain.value < 0.003) {
             clearInterval(fadeOut);
-            //this.resonanceAudioScene.output.disconnect()
           }
         }, interval_time);
 
-        this.source_gain = 0
-        this.streams[id].gainNode = this.audioContext.createGain()
-        this.streams[id].audioElementSource.connect(this.streams[id].gainNode)
-        this.streams[id].gainNode.connect(this.audioContext.destination)
-        this.streams[id].gainNode.gain.setValueAtTime(self.source_gain, self.audioContext.currentTime);
-
         const fadeIn= setInterval(() => {
           if (self.streams[id].gainNode.gain.value < max_gain) {
-            self.source_gain += 0.1
-            self.streams[id].gainNode.gain.setValueAtTime(self.source_gain, self.audioContext.currentTime);
+            self.streams[id].source_gain += 0.1
+            self.streams[id].gainNode.gain.setValueAtTime(self.streams[id].source_gain, self.audioContext.currentTime);
           }
           if (self.streams[id].gainNode.gain.value >  max_gain - 0.003) {
             clearInterval(fadeIn);
@@ -698,18 +695,13 @@ export default {
 
         const fadeOut = setInterval(() => {
           if (self.streams[id].gainNode.gain.value > 0) {
-            self.source_gain -= 0.1
-            self.streams[id].gainNode.gain.setValueAtTime(self.source_gain, self.audioContext.currentTime);
+            self.streams[id].source_gain -= 0.1
+            self.streams[id].gainNode.gain.setValueAtTime(self.streams[id].source_gain, self.audioContext.currentTime);
           }
           if (self.streams[id].gainNode.gain.value < 0.003) {
             clearInterval(fadeOut);
-
-            self.streams[id].gainNode.disconnect(self.audioContext.destination)
-            self.streams[id].audioElementSource.disconnect(self.streams[id].gainNode)
           }
         }, interval_time);
-
-        //this.resonanceAudioScene.output.connect(this.audioContext.destination)
 
         const fadeIn= setInterval(() => {
           if (self.resonanceAudioGainNode.gain.value < 1) {
@@ -720,8 +712,6 @@ export default {
             clearInterval(fadeIn);
           }
         }, interval_time);
-
-        //
 
         this.tunedin = -1
       }
@@ -756,18 +746,22 @@ export default {
       // this.socket.emit('moved', this.user);
       this.streams.forEach((stream, i) => {
         //console.log(i, this.distance(stream, this.user), this.tunein_fact * this.source_dist_fact)
+        if (this.distance(stream, this.user) >= (this.tunein_fact * this.source_dist_fact) ) {
+          if (this.tunedin == i && this.tunedin > -1) {
+            console.log('leave stream', i);
+            this.leaveStream(i)
+          }
+        }
+      })
+      this.streams.forEach((stream, i) => {
+        //console.log(i, this.distance(stream, this.user), this.tunein_fact * this.source_dist_fact)
         if (this.distance(stream, this.user) < (this.tunein_fact * this.source_dist_fact) ) {
           if (this.tunedin != i) {
             this.dragUserStop()
             console.log('tune into stream', i);
             this.tuneIntoStream(i)
           }
-        } else {
-          if (this.tunedin == i && this.tunedin > -1) {
-            console.log('leave stream', i);
-            this.leaveStream(i)
-          }
-        }
+        } 
       })
       this.messages_to_show = this.messages.filter(msg => this.sameRoom(msg, this.user))
       this.$refs.messageboard.scrollTop = this.$refs.messageboard.scrollHeight;
