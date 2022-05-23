@@ -1037,7 +1037,6 @@ a:hover {
 
 .title {
   font-size: 1rem;
-  font-style: italic;
   z-index:1002;
   color: var(--primary);
 }
