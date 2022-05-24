@@ -11,11 +11,14 @@ written by [Michael Aschauer](https://m.ash.to/)
 
 ## about a.space
 
-a.space is a distributed sound installation, that interconnects 3 spaces through a directional loop, affected by space, feedback and acoustic events. Each set is activated by [Stefan Tiefengraber](http://www.stefantiefengraber.com/  ) in Linz, [Polina Khatsenka](https://www.works.io/polina-khatsenka) in Ústí nad Labem, [Luka Prinčič ](https://lukaprincic.si/)and [ala pecula](https://alapecula.zone/) in Ljubljana. Through a virtual platform it is possible to listen, choose a point of perspective and interact with others. The web Interface developed by [Michael Aschauer](https://m.ash.to), will be shared as an open source tool for further use.
+a.space is a distributed sound installation, that interconnects different physical venues through a directional loop, affected by space, feedback and acoustic events. Through a virtual platform it is possible to listen, choose a point of perspective and interact with others.
 
-The project was conceptualized by Davide Bevilacqua and Gabriela Gordillo, realized by [servus.at](https://core.servus.at/) in the frame of [AMRO22](https://art-meets.radical-openness.org), in collaboration with [bb15](https://bb15.at/), [Emanat Institute](https://emanat.si/), [Ústí nad Labem House of Arts](https://duul.cz/en/), with the support of Linz_Sounds 2021.
+The project was realized and first shown in the frame of [AMRO22](https://art-meets.radical-openness.org), in collaboration with [bb15](https://bb15.at/), [Emanat Institute](https://emanat.si/), [Ústí nad Labem House of Arts](https://duul.cz/en/). It was activated by [Stefan Tiefengraber](http://www.stefantiefengraber.com/  ) in Linz, [Polina Khatsenka](https://www.works.io/polina-khatsenka) in Ústí nad Labem, [Luka Prinčič ](https://lukaprincic.si/) and [ala pecula](https://alapecula.zone/) in Ljubljana.
 
-Exhibition: June 16th, from 15:00 to 18:00 hrs, accessible online at [a-space.servus.at](https://a-space.servus.at)
+The project was conceptualized by Davide Bevilacqua and Gabriela Gordillo, realized by [servus.at](https://www.servus.at)  with the support of Linz_Sounds 2021. The web Interface developed by [Michael Aschauer](https://m.ash.to/), its source code is shared for further use as an open source tool.
+
+The virtual platform is accessible online at [a-space.servus.at](https://a-space.servus.at)
+
 
 ## configuration
 

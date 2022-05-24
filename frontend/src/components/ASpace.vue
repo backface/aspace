@@ -300,7 +300,7 @@
             Through a virtual platform it is possible to listen, choose a point
             of perspective and interact with others. The web Interface
             developed by <a href="https://m.ash.to">Michael Aschauer</a>,
-            will be shared as an <a href="https://github.com/backface/aspace">open source</a>
+            will be shared as an <a href="https://gitlab.servus.at/backface/aspace">open source</a>
             tool for further use.
         </p>
         <p class="mb-4">
@@ -761,7 +761,7 @@ export default {
             console.log('tune into stream', i);
             this.tuneIntoStream(i)
           }
-        } 
+        }
       })
       this.messages_to_show = this.messages.filter(msg => this.sameRoom(msg, this.user))
       this.$refs.messageboard.scrollTop = this.$refs.messageboard.scrollHeight;
