@@ -298,7 +298,7 @@
             <a href="https://lukaprincic.si/">Luka Prinčič</a> and
             <a href="https://alapecula.zone/">ala pecula</a> in Ljubljana.
             Through a virtual platform it is possible to listen, choose a point
-            of perspective and interact with others. The web Interface
+            of perspective and interact with others. The web interface is
             developed by <a href="https://m.ash.to">Michael Aschauer</a>,
             will be shared as an <a href="https://gitlab.servus.at/backface/aspace">open source</a>
             tool for further use.
