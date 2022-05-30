@@ -15,7 +15,7 @@ a.space is a distributed sound installation, that interconnects different physic
 
 The project was realized and first shown in the frame of [AMRO22](https://art-meets.radical-openness.org), in collaboration with [bb15](https://bb15.at/), [Emanat Institute](https://emanat.si/), [Ústí nad Labem House of Arts](https://duul.cz/en/). It was activated by [Stefan Tiefengraber](http://www.stefantiefengraber.com/  ) in Linz, [Polina Khatsenka](https://www.works.io/polina-khatsenka) in Ústí nad Labem, [Luka Prinčič ](https://lukaprincic.si/) and [ala pecula](https://alapecula.zone/) in Ljubljana.
 
-The project was conceptualized by Davide Bevilacqua and Gabriela Gordillo, realized by [servus.at](https://www.servus.at)  with the support of Linz_Sounds 2021. The web Interface developed by [Michael Aschauer](https://m.ash.to/), its source code is shared for further use as an open source tool.
+The project was conceptualized by Davide Bevilacqua and Gabriela Gordillo, realized by [servus.at](https://www.servus.at)  with the support of Linz_Sounds 2021. The web interface is developed by [Michael Aschauer](https://m.ash.to/), its source code is shared for further use as an open source tool.
 
 The virtual platform is accessible online at [a-space.servus.at](https://a-space.servus.at)
 
