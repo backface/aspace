@@ -1,0 +1,14 @@
+image: alpine:latest
+
+backend-redeploy:
+  stage: deploy
+  before_script:
+  - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )' 
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  script:
+  - ssh -oStrictHostKeyChecking=no $SSH_USER@$VHOST_ADDRESS -p $VHOST_PORT "/bin/bash ~/redeploy.sh"
+  only:
+  - main
