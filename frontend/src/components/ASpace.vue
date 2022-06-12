@@ -587,7 +587,6 @@ export default {
           // stream.audioElement = document.getElementById('stream' + i)
           stream.reload()
           stream.audioElement.addEventListener("error", function(e) {
-            console.log(e);
             setTimeout(() => {
               console.log('retry loading audio source', stream.id);
               stream.reload()
@@ -596,7 +595,6 @@ export default {
         }
         catch (e) {
           console.log('error loading audio');
-          console.log(e);
         }
 
         if (!stream.audioElement.paused && !this.running) {
