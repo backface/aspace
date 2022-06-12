@@ -556,13 +556,7 @@ export default {
         stream.source.setMaxDistance(this.source_dist_fact);
         stream.source.setRolloff('linear')
 
-        stream.audioElement = document.createElement('audio');
-        stream.audioElement.src = stream.src + '?t=' + Date.now();
-        // stream.audioElement = document.getElementById('stream' + i)
-        stream.audioElement.crossOrigin = 'Anonymous'
-        stream.audioElementSource = this.audioContext.createMediaElementSource(stream.audioElement)
-        stream.audioElementSource.connect(stream.source.input)
-        stream.rms = 0.0
+
 
         /*
         stream.script = audioContext.createScriptProcessor(1024, 1, 1);
@@ -581,10 +575,37 @@ export default {
         stream.audioElementSource.connect(stream.script)
         */
 
-        stream.audioElement.play();
+        stream.reload = function() {
+          stream.audioElement.src = stream.src + '?t=' + Date.now();
+          stream.audioElement.play();
+          stream.audioElement.crossOrigin = 'Anonymous'
+        }
+
+        try {
+          stream.audioElement = document.createElement('audio');
+          //stream.audioElement.src = stream.src + '?t=' + Date.now();
+          // stream.audioElement = document.getElementById('stream' + i)
+          stream.reload()
+          stream.audioElement.addEventListener("error", function(e) {
+            console.log(e);
+            setTimeout(() => {
+              console.log('retry loading audio source', stream.id);
+              stream.reload()
+            }, 5000)
+          })
+        }
+        catch (e) {
+          console.log('error loading audio');
+          console.log(e);
+        }
+
         if (!stream.audioElement.paused && !this.running) {
           this.running = true
         }
+
+        stream.audioElementSource = this.audioContext.createMediaElementSource(stream.audioElement)
+        stream.audioElementSource.connect(stream.source.input)
+        stream.rms = 0.0
 
         stream.analyser = this.audioContext.createAnalyser();
         stream.analyser.fftSize = 1024;
