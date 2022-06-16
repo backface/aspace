@@ -2,19 +2,19 @@
   "streams": [
    {
      "id": 1,
-     "src": "https://ice.pretok.tv:8010/ljub.ogg",
+     "src": "https://ice.pretok.tv/aspace_rec/ljub.ogg",
      "title":"Ljubljana",
      "color": "#19FAA2"
    },
    {
      "id": 2,
-     "src": "https://ice.pretok.tv:8010/linz.opus",
+     "src": "https://ice.pretok.tv/aspace_rec/linz.opus",
      "title": "Linz",
      "color": "#FABF32"
    },
    {
      "id": 3,
-     "src": "https://ice.pretok.tv:8010/usti.ogg",
+     "src": "https://ice.pretok.tv/aspace_rec/usti.ogg",
      "title": "Ústí nad Labem",
      "color": "#8E3FFA"
    }
