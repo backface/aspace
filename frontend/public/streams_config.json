@@ -2,19 +2,19 @@
   "streams": [
    {
      "id": 1,
-     "src": "https://m.ash.to/aspace/ljub.ogg",
+     "src": "https://a-space.servus.at/public/ljub.ogg",
      "title":"Ljubljana",
      "color": "#19FAA2"
    },
    {
      "id": 2,
-     "src": "https://m.ash.to/aspace/linz.opus",
+     "src": "https://a-space.servus.at/public/linz.opus",
      "title": "Linz",
      "color": "#FABF32"
    },
    {
      "id": 3,
-     "src": "https://m.ash.to/aspace/usti.ogg",
+     "src": "https://a-space.servus.at/public/usti.ogg",
      "title": "Ústí nad Labem",
      "color": "#8E3FFA"
    }
